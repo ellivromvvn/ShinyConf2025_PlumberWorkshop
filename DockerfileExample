@@ -1,0 +1,33 @@
+# Use the official R base image
+FROM rocker/r-ver
+
+# Install renv for reproducible package management
+RUN R -e "install.packages('renv')"
+
+# Install system dependencies needed for common R packages
+RUN apt-get update && apt-get install -y \
+    libcurl4-gnutls-dev \
+    libssl-dev \
+    libxml2-dev \
+    libpq-dev \
+    libv8-dev \
+    libsodium-dev
+
+# Copy your API code into the container
+# Replace API_DIRECTORY_NAME with the name of your local project directory
+COPY . /usr/local/API_DIRECTORY_NAME/
+
+# Set the working directory inside the container
+WORKDIR /usr/local/API_DIRECTORY_NAME/
+
+# Run any setup commands defined in .Rprofile (optional)
+RUN R -e "source('.Rprofile')"
+
+# Restore packages using renv.lock
+RUN R -e "renv::restore()"
+
+# Expose the port used by your Plumber API
+EXPOSE 1914
+
+# Run the API script
+CMD ["R", "-e", "source('/usr/local/API_DIRECTORY_NAME/plumber.R')"]
