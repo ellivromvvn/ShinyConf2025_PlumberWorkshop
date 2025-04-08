@@ -2,22 +2,6 @@
 
 This project demonstrates how to build a Plumber API in R starting from a basic analysis.
 
-## Setup
-
-Install required packages:
-
-```r
-install.packages(c("plumber", "tidyverse", "nycflights13", "echarts4r"))
-```
-
-## Run the API
-
-```r
-library(plumber)
-pr <- plumb("plumber.R")
-pr$run(port = 8000)
-```
-
 ## Endpoints
 
 - `/health`: Basic check
@@ -26,5 +10,3 @@ pr$run(port = 8000)
 - `/daily_volume?origin=JFK`: Daily flight volume
 - `/top_destinations?origin=JFK&top_n=5`: Top destination airports
 - `/plot_daily_volume?origin=JFK`: Interactive HTML chart
-
-Open [http://localhost:8000/__docs__](http://localhost:8000/__docs__) for live API documentation.
